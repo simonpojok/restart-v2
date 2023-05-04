@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CircleGroupView: View {
+    @State private var isAnimating: Bool = false
+    
     let shapeColor: Color
     let shapeOpacity: Double
     
@@ -20,7 +22,13 @@ struct CircleGroupView: View {
             Circle()
                 .stroke(shapeColor.opacity(shapeOpacity), lineWidth: 80)
                 .frame(width: 260, height: 260, alignment: .center)
-        }
+        }.blur(radius: isAnimating ? 0 : 10)
+            .opacity(isAnimating ? 1 : 0)
+            .scaleEffect(isAnimating ? 1 : 0.5)
+            .animation(.easeIn(duration: 1), value: isAnimating)
+            .onAppear {
+                isAnimating = true
+            }
     }
 }
 
